@@ -38,13 +38,24 @@ do
         NUM2=$(($RANDOM%2))
         nome="João Vitor Santos Neres"
         rm="RM 95395"
-        conect="www.google.com.br"
         h=`date +%H`
         sleep 2s
         read -p "Digite a sua pergunta para o Mr.Robot: " PERGUNTA
         function ping1()
         {
-                ping -c3 www.google.com.br
+                read -p "Coloque o endereço que deseja pingar: " ping2
+                sleep 1s
+                echo "Testando conexão com $ping2"
+                sleep 1s
+                ping -c3 $ping2
+        }
+        function ping2()
+        {
+                read -p "Digite o site para eu pingar: " ping3
+                sleep 1s
+                echo "Vamos pingar $ping3"
+                sleep 1s
+                ping -c3 $ping3
         }
         function atualizar1()
         {
@@ -61,6 +72,24 @@ do
         function navegador1()
         {
                 firefox
+        }
+        function nmap1()
+        {
+                read -p "Coloque o alvo que deseja scanear: " scan
+                sleep 1s
+                if [ $NUM -eq 1 ]; then
+                        echo "Fazendo scan em  $scan"
+                        sleep 2s
+                        nmap $scan
+                elif [ $NUM -eq 2 ]; then
+                        echo "Checkando portas e serviços em $scan"
+                        sleep 2s
+                        nmap $scan
+                else
+                        echo "Scanning $scan in 3..2..1.."
+                        sleep 2s
+                        nmap $scan
+                fi
         }
 
         case "$PERGUNTA" in
@@ -169,38 +198,19 @@ do
                 ;;
                 *'conexão'*)
                         if [ $NUM2 -eq 1 ]; then
-                                echo "Testando conexão com $conect"
-                                sleep 1s
                                 ping1
+
                         else
-                                echo "Iremos fazer a conexão com $conect"
-                                sleep 1s
                                 ping1
                         fi
 
                 ;;
                 *'conectividade'*)
-                        if [ $NUM2 -eq 1 ]; then
-                                echo "Checkando a conectividade com $conect"
-                                sleep 1s
-                                ping1
-                        else
-                                echo "Ok, irei checkar a conectividade com $conect"
-                                sleep 1s
-                                ping1
-                        fi
+                        ping2
 
                 ;;
                 *'ping'*)
-                        if [ $NUM2 -eq 1 ]; then
-                                echo "Irei pingar o $conect"
-                                sleep 1s
-                                ping1
-                        else
-                                echo "E lá vamos nós pingar o $conect"
-                                sleep 1s
-                                ping1
-                        fi
+                        ping2
 
                 ;;
                 *'serviços'*)
@@ -244,29 +254,29 @@ do
                 ;;
                 *'manhã'*)
                         if [ $h -lt 12 ]; then
-                                echo Agora é de manhã, horário $h horas
+                                echo Neste exato momento é manhã $h horas
                         elif [ $h -lt 18 ]; then
-                                echo Agora é de tarde, horário $h horas
+                                echo São $h da tarde para de me requisitar
                         else 
-                                echo Agora é de noite, horário $h horas
+                                echo Agora é de noite, $h horas
                         fi
                 ;;
                 *'tarde'*)
                         if [ $h -lt 12 ]; then
-                                echo Agora é de manhã, horário $h horas
+                                echo Esta muito cedo, estamos de manhã,  horário $h horas
                         elif [ $h -lt 18 ]; then
-                                echo Agora é de tarde, horário $h horas
+                                echo Vamos tomar um café nessa tarde?  horário $h horas
                         else 
-                                echo Agora é de noite, horário $h horas
+                                echo Esta escuro lá fora, então é de noite,  horário $h horas
                         fi
                 ;;
                 *'noite'*)
                         if [ $h -lt 12 ]; then
-                                echo Agora é de manhã, horário $h horas
+                                echo Neste momento é de manhã, horário $h horas
                         elif [ $h -lt 18 ]; then
-                                echo Agora é de tarde, horário $h horas
+                                echo Neste momento é de tarde, horário $h horas
                         else 
-                                echo Agora é de noite, horário $h horas
+                                echo Neste momento é de noite, horário $h horas
                         fi
                 ;;
                 *'processos'*)
@@ -325,6 +335,12 @@ do
                         sleep 1s
                         cowsay $cow1
                 ;;
+                *'vulnerabilidade'*)
+                        nmap1
+                ;;
+                *'scan'*)
+                        nmap1
 
+                ;;
         esac
 done
